@@ -1,0 +1,37 @@
+# Compiled binaries and build artifacts
+*.hex
+*.elf
+*.bin
+*.eep
+*.map
+*.dis
+*.s
+
+# Object files and libraries
+*.o
+*.a
+*.so
+*.lo
+*.la
+
+# Arduino IDE 2.0 / CLI build directory
+build/
+
+# Legacy Arduino / Pre-processing
+*.ino.cpp
+*.ino.h
+*.tmp
+
+# VS Code / Visual Micro
+.vscode/
+.vs/
+*.suo
+*.user
+__vm/
+
+# Serial monitor logs (if saved)
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
