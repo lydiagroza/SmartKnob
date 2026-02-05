@@ -553,15 +553,17 @@ void updateDisplay() {
 }
 
 void drawMenu() {
-  if (needsFullRedraw) {
-    tft.fillScreen(COLOR_BG);
-    needsFullRedraw = false;
-  }
+  // 1. STOP if nothing has changed!
+  // If we assume the screen is already correct, we exit immediately.
+  if (!needsFullRedraw) return; 
+
+  // 2. Clear the background
+  tft.fillScreen(COLOR_BG);
   
-  // Draw outer ring
+  // 3. Draw outer ring
   tft.drawCircle(CENTER_X, CENTER_Y, 115, COLOR_SECONDARY);
   
-  // Draw menu items in circle
+  // 4. Draw menu items in circle
   for (int i = 0; i < NUM_MODES; i++) {
     float angle = (2.0 * PI * i / NUM_MODES) - PI/2;
     int radius = 80;
@@ -569,12 +571,11 @@ void drawMenu() {
     int y = CENTER_Y + sin(angle) * radius;
     
     if (i == currentMenuItem) {
-      // Selected item - larger with filled circle
+      // Selected item
       tft.fillCircle(x, y, 25, COLOR_PRIMARY);
       tft.setTextColor(COLOR_BG);
       tft.setTextSize(1);
       
-      // Calculate text position to center it
       int textLen = strlen(menuItems[i].name);
       tft.setCursor(x - (textLen * 3), y - 4);
       tft.print(menuItems[i].name);
@@ -590,7 +591,7 @@ void drawMenu() {
     }
   }
   
-  // Draw center text
+  // 5. Draw center text
   tft.setTextColor(COLOR_TEXT);
   tft.setTextSize(2);
   int textLen = strlen(menuItems[currentMenuItem].name);
@@ -598,12 +599,17 @@ void drawMenu() {
   tft.setCursor(CENTER_X - (textLen * 6), CENTER_Y - 8);
   tft.print(menuItems[currentMenuItem].name);
   
-  // Draw instruction at bottom
+  // 6. Draw instruction
   tft.setTextSize(1);
   tft.setTextColor(COLOR_SECONDARY);
   tft.fillRect(0, 215, 240, 10, COLOR_BG);
   tft.setCursor(72, 218);
   tft.print("Press to select");
+
+  // 7. MARK AS DONE
+  // We finished drawing, so we set this to false.
+  // The code won't draw again until you move the knob.
+  needsFullRedraw = false;
 }
 
 void drawSettingsMenu() {
