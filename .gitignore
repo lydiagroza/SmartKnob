@@ -35,3 +35,7 @@ __vm/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# macOS junk files
+._*
+.DS_Store
